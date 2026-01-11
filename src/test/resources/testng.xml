@@ -1,0 +1,33 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="SauceDemo-AutomationFramework"
+       verbose="1"
+       parallel="false"
+       thread-count="1">
+
+    <!-- Global listeners -->
+    <listeners>
+        <!-- Allure TestNG integration -->
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+
+        <!-- Retry mechanism applied to all tests -->
+        <listener class-name="com.ppelka.testbase.RetryListener"/>
+    </listeners>
+
+    <!-- Default browser (can be overridden with -Dbrowser=firefox) -->
+    <parameter name="browser" value="firefox"/>
+
+    <!-- Test 1: Add product to cart and remove it -->
+    <test name="Add Product To Cart And Remove It Test">
+        <classes>
+            <class name="com.ppelka.tests.AddProductToCartAndRemoveItTest"/>
+        </classes>
+    </test>
+
+    <!-- Test 2: Login verification -->
+    <test name="Login Verification Test">
+        <classes>
+            <class name="com.ppelka.tests.LoginVerificationTest"/>
+        </classes>
+    </test>
+
+</suite>
