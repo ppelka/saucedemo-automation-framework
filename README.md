@@ -22,23 +22,24 @@ Retry Analyzer + Listener
 
 Custom Config Reader
 
-🧱 Project Structure
+## 🧱 Project Structure
 
-src/
-├── main/
-│   └── java/com.ppelka/
-│       ├── abstractcomponents/
-│       ├── core/
-│       └── pageobjects/
-├── test/
-│   ├── java/com.ppelka/
-│   │   ├── steps/
-│   │   ├── testbase/
-│   │   └── tests/
-│   └── resources/
-│       ├── config.properties
-│       ├── allure.properties
-│       └── testng.xml
+- src/
+    - main/
+        - java/com.ppelka/
+            - abstractcomponents/
+            - core/
+            - pageobjects/
+    - test/
+        - java/com.ppelka/
+            - steps/
+            - testbase/
+            - tests/
+        - resources/
+            - config.properties
+            - allure.properties
+            - testng.xml
+
 
 🧪 How to Run Tests
 
