@@ -24,7 +24,7 @@ Retry Analyzer + Listener
 
 Custom Config Reader
 
-## 🧱 Project Structure
+🧱 Project Structure
 
 - src/
     - main/
