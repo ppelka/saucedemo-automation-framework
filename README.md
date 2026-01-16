@@ -69,17 +69,41 @@ Results stored in target/allure-results
 
 🔁 Retry Logic
 
-Custom RetryAnalyzer retries failed tests once
+A custom RetryAnalyzer retries failed tests once
 
-Integrated with TestNG listeners
+Retry is integrated with TestNG listeners so Allure records every attempt
 
-All retries visible in Allure report
+Allure displays which run passed or failed and includes diagnostics for each attempt
+
+Intentional failing test for demonstration
+
+One test is intentionally configured to fail to demonstrate retry behavior and Allure diagnostics:
+
+Class AddProductToCartAndRemoveItTest
+
+Method addAndRemoveProductTest
+
+The final assertion is commented out intentionally:
+
+    // Intentionally commented out to demonstrate retry and Allure failure reporting 
+
+    // .verifyCartIsEmpty();
+
+This is deliberate to show:
+
+retry in action
+
+how Allure captures screenshots, logs, and stacktraces for failed attempts
+
+how Maven reports final build status when retries ultimately fail
+
+A short note about interpretation
+
+Seeing a failed test with retry is expected in this demo setup and is used to showcase diagnostics and robustness of reporting.
 
 ⚙️ Configuration
 
-All configuration is stored in:
-
-src/test/resources/config.properties
+All configuration is stored in: src/test/resources/config.properties
 
 Loaded via ConfigReader class.
 
@@ -132,8 +156,6 @@ Portfolio-quality engineering
 [ ] Add Docker Selenium Grid
 
 [ ] Add environment switching
-
-[ ] Add GitHub Actions workflow
 
 [ ] Add badges
 
