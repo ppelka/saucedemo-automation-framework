@@ -35,7 +35,7 @@ public class AddProductToCartAndRemoveItTest extends BaseTest {
         // Verify product, remove it, and confirm cart is empty
         cartSteps
                 .verifyProductVisible("Sauce Labs Backpack")
-                .removeProduct("Sauce Labs Backpack")
+        //        .removeProduct("Sauce Labs Backpack")
                 .verifyCartIsEmpty();
     }
 }
