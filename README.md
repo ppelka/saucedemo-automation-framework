@@ -87,7 +87,7 @@ The final assertion is commented out intentionally:
 
     // Intentionally commented out to demonstrate retry and Allure failure reporting 
 
-    // .verifyCartIsEmpty();
+    // .removeProduct("Sauce Labs Backpack")
 
 This is deliberate to show:
 
