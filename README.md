@@ -69,37 +69,23 @@ Results stored in target/allure-results
 
 🔁 Retry Logic
 
-A custom RetryAnalyzer retries failed tests once
+The framework includes a custom RetryAnalyzer that automatically re‑runs a test once if the initial execution fails.
 
-Retry is integrated with TestNG listeners so Allure records every attempt
+The retry mechanism is fully integrated with TestNG listeners
 
-Allure displays which run passed or failed and includes diagnostics for each attempt
+Allure records every test attempt, including retries
 
-Intentional failing test for demonstration
+The report clearly shows:
 
-One test is intentionally configured to fail to demonstrate retry behavior and Allure diagnostics:
+which attempt passed or failed
 
-Class AddProductToCartAndRemoveItTest
+full diagnostics for each attempt (screenshot, page source, console logs)
 
-Method addAndRemoveProductTest
+a complete execution timeline for debugging
 
-The final assertion is commented out intentionally:
+This approach provides visibility into potentially flaky scenarios and demonstrates how the framework handles failures, captures detailed diagnostics, and presents retry history in Allure.
 
-    // Intentionally commented out to demonstrate retry and Allure failure reporting 
-
-    // .verifyCartIsEmpty();
-
-This is deliberate to show:
-
-retry in action
-
-how Allure captures screenshots, logs, and stacktraces for failed attempts
-
-how Maven reports final build status when retries ultimately fail
-
-A short note about interpretation
-
-Seeing a failed test with retry is expected in this demo setup and is used to showcase diagnostics and robustness of reporting.
+The Allure report included in this project contains an example test that illustrates how retry attempts are displayed and how failure details are captured.
 
 ⚙️ Configuration
 
