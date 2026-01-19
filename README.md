@@ -1,10 +1,10 @@
-🧪 SauceDemo Automation Framework
+## 🧪 SauceDemo Automation Framework
 
 UI test automation framework for SauceDemo built with Selenium WebDriver, TestNG, Allure, and the Page Object Model.Designed for clean architecture, rich reporting, and CI/CD integration.
 
 ![Build](https://github.com/ppelka/saucedemo-automation-framework/actions/workflows/maven-tests.yml/badge.svg)
 
-🚀 Technologies Used
+## 🚀 Technologies Used
 
 Java 17
 
@@ -24,7 +24,7 @@ Retry Analyzer + Listener
 
 Custom Config Reader
 
-🧱 Project Structure
+## 🧱 Project Structure
 
 - src/
     - main/
@@ -43,7 +43,7 @@ Custom Config Reader
             - testng.xml
 
 
-🧪 How to Run Tests
+## 🧪 How to Run Tests
 
 1. Install dependencies
 
@@ -57,7 +57,7 @@ mvn test
 
 allure serve target/allure-results
 
-📊 Allure Reporting
+## 📊 Allure Reporting
 
 Each test step is annotated with @Step
 
@@ -67,7 +67,21 @@ Attachments for logs and diagnostics
 
 Results stored in target/allure-results
 
-🔁 Retry Logic
+## 📊 Sample Allure Report
+
+Below are example screenshots generated from the framework to illustrate how Allure presents test execution, failures, and retry attempts.
+
+### Overview
+![Allure Overview](docs/allure/overview.png)
+
+### Failed Test Details
+![Failed Test](docs/allure/failed-test.png)
+
+### Retry History
+![Retry History](docs/allure/retry-history.png)
+
+
+## 🔁 Retry Logic
 
 The framework includes a custom RetryAnalyzer that automatically re‑runs a test once if the initial execution fails.
 
@@ -87,13 +101,13 @@ This approach provides visibility into potentially flaky scenarios and demonstra
 
 The Allure report included in this project contains an example test that illustrates how retry attempts are displayed and how failure details are captured.
 
-⚙️ Configuration
+## ⚙️ Configuration
 
 All configuration is stored in: src/test/resources/config.properties
 
 Loaded via ConfigReader class.
 
-🧪 Sample Test Scenarios
+## 🧪 Sample Test Scenarios
 
 ✔ Valid login
 
@@ -107,7 +121,7 @@ Loaded via ConfigReader class.
 
 🔄 Multi-step product flow (coming soon)
 
-📦 CI/CD Integration (coming soon)
+## 📦 CI/CD Integration (coming soon)
 
 Planned GitHub Actions workflow:
 
@@ -121,7 +135,7 @@ Upload report as artifact
 
 Add build & test badges to README
 
-💡 Why This Project Matters
+## 💡 Why This Project Matters
 
 This framework demonstrates:
 
@@ -135,7 +149,7 @@ CI/CD readiness
 
 Portfolio-quality engineering
 
-📌 Future Improvements
+## 📌 Future Improvements
 
 [ ] Add more test scenarios
 
@@ -147,6 +161,6 @@ Portfolio-quality engineering
 
 [ ] Add architecture diagram
 
-📜 License
+## 📜 License
 
 This project is licensed under the MIT License.
