@@ -51,6 +51,7 @@ public class LoginSteps {
     public LoginSteps loginInvalid(String username, String password) {
         log.info("Attempting invalid login with username: {}", username);
         loginPage.loginInvalid(username, password);
+        Assert.assertTrue(loginPage.isAt(), "Epic sadface");
         return this;
     }
 
