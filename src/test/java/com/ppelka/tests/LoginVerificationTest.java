@@ -1,34 +1,42 @@
 package com.ppelka.tests;
 
 import com.ppelka.pageobjects.ProductCatalog;
-import org.testng.annotations.Test;
 import com.ppelka.testbase.BaseTest;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 /**
- * Test suite verifying login functionality:
- *  - Valid login redirects to the product catalog
- *  - Invalid login displays an appropriate error message
+ * Parameterized login test demonstrating:
+ *  - Successful login for valid users
+ *  - Error handling for invalid or restricted users
+ *  - Allure reporting for each data-driven iteration
  */
 public class LoginVerificationTest extends BaseTest {
 
-    @Test(description = "Valid login should redirect to product catalog")
-    public void validLoginTest() {
-
-        // Login with valid credentials
-        ProductCatalog catalog = loginSteps
-                .openLoginPage()
-                .loginValid("standard_user", "secret_sauce");
-
-        // Assertion is handled inside LoginSteps → test remains clean
+    @DataProvider(name = "loginUsers")
+    public Object[][] loginUsers() {
+        return new Object[][]{
+                {"standard_user", "secret_sauce", true,  "Valid user should log in successfully"},
+                {"locked_out_user", "secret_sauce", false, "Locked out user should see an error"},
+                {"problem_user", "secret_sauce", true,  "Problem user should still log in"},
+                {"wrong_user", "wrong_pass", false, "Invalid credentials should show error"}
+        };
     }
 
-    @Test(description = "Invalid login should show error message")
-    public void invalidLoginTest() {
+    @Test(
+            dataProvider = "loginUsers",
+            description = "Parameterized login test for multiple user types"
+    )
+    public void loginTest(String username, String password, boolean shouldSucceed, String description) {
 
-        // Attempt login with invalid credentials and verify error message
-        loginSteps
-                .openLoginPage()
-                .loginInvalid("wrong_user", "wrong_pass")
-                .verifyLoginError("Epic sadface");
+        loginSteps.openLoginPage();
+
+        if (shouldSucceed) {
+            ProductCatalog catalog = loginSteps.loginValid(username, password);
+        } else {
+            loginSteps
+                    .loginInvalid(username, password)
+                    .verifyLoginError("Epic sadface");
+        }
     }
 }
