@@ -4,7 +4,9 @@
        parallel="false"
        thread-count="1">
 
-    <!-- Global listeners -->
+    <!-- ============================================================
+         Global listeners
+         ============================================================ -->
     <listeners>
         <!-- Allure TestNG integration -->
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
@@ -13,21 +15,40 @@
         <listener class-name="com.ppelka.testbase.RetryListener"/>
     </listeners>
 
-    <!-- Default browser (can be overridden with -Dbrowser=firefox) -->
+    <!-- ============================================================
+         Global parameters
+         ============================================================ -->
+    <!-- Default browser (can be overridden with -Dbrowser=chrome) -->
     <parameter name="browser" value="firefox"/>
 
+
+    <!-- ============================================================
+         Functional Tests
+         ============================================================ -->
+
     <!-- Test 1: Add product to cart and remove it -->
-    <test name="Add Product To Cart And Remove It Test">
+    <test name="Add Product To Cart And Remove It">
         <classes>
             <class name="com.ppelka.tests.AddProductToCartAndRemoveItTest"/>
         </classes>
     </test>
 
-    <!-- Test 2: Login verification -->
-    <test name="Login Verification Test">
+    <!-- Test 2: Checkout flow -->
+    <test name="Checkout Flow">
+        <classes>
+            <class name="com.ppelka.tests.CheckoutFlowTest"/>
+        </classes>
+    </test>
+
+
+    <!-- ============================================================
+         Parameterized Login Tests
+         ============================================================ -->
+
+    <!-- Test 3: Login with standard_user -->
+    <test name="Parametrized Login Tests">
         <classes>
             <class name="com.ppelka.tests.LoginVerificationTest"/>
         </classes>
     </test>
-
 </suite>

@@ -17,6 +17,7 @@ public class CartPage extends AbstractComponent {
     private final By cartItem = By.cssSelector(".cart_item");
     private final By itemName = By.cssSelector(".inventory_item_name");
     private final By removeButton = By.cssSelector("button.cart_button");
+    private final By checkoutButton = By.id("checkout");
 
     // ============================================================
     // Constructor
@@ -79,5 +80,15 @@ public class CartPage extends AbstractComponent {
      */
     public boolean isCartEmpty() {
         return findAll(cartItem).isEmpty();
+    }
+
+    /**
+     * Proceeds from the cart page to the checkout information page.
+     */
+    public CheckoutInformationPage proceedToCheckout() {
+        find(checkoutButton).click();
+        CheckoutInformationPage infoPage = new CheckoutInformationPage(driver);
+        infoPage.waitForPageToLoad();
+        return infoPage;
     }
 }
