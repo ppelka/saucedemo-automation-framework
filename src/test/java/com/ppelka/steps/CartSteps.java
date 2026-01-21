@@ -1,6 +1,7 @@
 package com.ppelka.steps;
 
 import com.ppelka.pageobjects.CartPage;
+import com.ppelka.pageobjects.CheckoutInformationPage;
 import io.qameta.allure.Step;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +21,16 @@ public class CartSteps {
         this.cartPage = cartPage;
     }
 
-    /**
-     * Verifies that a product with the given name is visible in the cart.
-     */
-    @Step("Verify that product \"{productName}\" is visible in the cart")
-    public CartSteps verifyProductVisible(String productName) {
-        log.info("Checking if product is visible in cart: {}", productName);
+    // ============================================================
+    // Verification steps
+    // ============================================================
 
+    /**
+     * Verifies that a product is visible in the cart.
+     */
+    @Step("Verify product visible in cart: {productName}")
+    public CartSteps verifyProductVisible(String productName) {
+        log.info("Verifying product visible in cart: {}", productName);
         Assert.assertTrue(
                 cartPage.isProductVisible(productName),
                 "Product not visible in cart: " + productName
@@ -35,7 +39,24 @@ public class CartSteps {
     }
 
     /**
-     * Removes a product from the cart by its name.
+     * Verifies that the cart is empty.
+     */
+    @Step("Verify cart is empty")
+    public CartSteps verifyCartIsEmpty() {
+        log.info("Verifying cart is empty");
+        Assert.assertTrue(
+                cartPage.isCartEmpty(),
+                "Cart is not empty"
+        );
+        return this;
+    }
+
+    // ============================================================
+    // Action steps
+    // ============================================================
+
+    /**
+     * Removes a product from the cart.
      */
     @Step("Remove product from cart: {productName}")
     public CartSteps removeProduct(String productName) {
@@ -45,12 +66,11 @@ public class CartSteps {
     }
 
     /**
-     * Verifies that the cart contains no items.
+     * Proceeds from the cart page to the checkout information page.
      */
-    @Step("Verify that the cart is empty")
-    public CartSteps verifyCartIsEmpty() {
-        log.info("Verifying that cart is empty");
-        Assert.assertTrue(cartPage.isCartEmpty(), "Cart is not empty");
-        return this;
+    @Step("Proceed to checkout information page")
+    public CheckoutInformationPage proceedToCheckout() {
+        log.info("Proceeding to checkout information page");
+        return cartPage.proceedToCheckout();
     }
 }
