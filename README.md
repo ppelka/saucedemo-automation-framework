@@ -42,6 +42,77 @@ Custom Config Reader
             - allure.properties
             - testng.xml
 
+## 🧬 Architecture Diagram
++-----------------------------+
+|     testng.xml (Suite)     |
+| - Suite/Test definitions   |
+| - Global listeners         |
++-----------------------------+
+|
+v
++-----------------------------+
+|        Test Classes         |
+|  (Checkout, Cart, Login)    |
++-----------------------------+
+|
+v
++-----------------------------+
+|         Steps Layer         |
+| - Business actions          |
+| - Allure @Step annotations  |
++-----------------------------+
+|
+v
++-----------------------------+
+|        Page Objects         |
+| - Page-specific locators    |
+| - UI interactions           |
++-----------------------------+
+|
+v
++-----------------------------+
+|     AbstractComponent       |
+| - Explicit waits            |
+| - Common UI helpers         |
++-----------------------------+
+|
+v
++-----------------------------+
+|     DriverManager           |
+| - Driver lifecycle          |
++-----------------------------+
+|
+v
++-----------------------------+
+|    WebDriverFactory         |
+| - Browser setup             |
++-----------------------------+
+|
+v
++-----------------------------+
+|      ConfigReader           |
+| - Env variables             |
++-----------------------------+
+|
+v
++-----------------------------+
+|   Selenium WebDriver        |
++-----------------------------+
+|
+v
++-----------------------------+
+|       Allure Reports        |
+| - Steps                     |
+| - Screenshots on failure    |
+| - Test history              |
++-----------------------------+
+|
+v
++-----------------------------+
+|      CI/CD Pipeline         |
+|     (GitHub Actions)        |
++-----------------------------+
+ 
 
 ## 🧪 How to Run Tests
 
