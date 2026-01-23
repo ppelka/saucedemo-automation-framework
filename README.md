@@ -43,76 +43,65 @@ Custom Config Reader
             - testng.xml
 
 ## 🧬 Architecture Diagram
-+-----------------------------+
-|     testng.xml (Suite)     |
-| - Suite/Test definitions   |
-| - Global listeners         |
-+-----------------------------+
+
++---------------------------+
+|   testng.xml (Suite)      |
+| - Suite / test definitions|
+| - Global listeners        |
++---------------------------+
 |
 v
-+-----------------------------+
-|        Test Classes         |
-|  (Checkout, Cart, Login)    |
-+-----------------------------+
++---------------------------+
+|      Test Classes         |
+| - CheckoutFlowTest        |
+| - AddProductToCartTest    |
+| - ParameterizedLoginTest  |
++---------------------------+
 |
 v
-+-----------------------------+
-|         Steps Layer         |
-| - Business actions          |
-| - Allure @Step annotations  |
-+-----------------------------+
++---------------------------+
+|       Steps Layer         |
+| - Business actions        |
+| - Allure @Step annotations|
++---------------------------+
 |
 v
-+-----------------------------+
-|        Page Objects         |
-| - Page-specific locators    |
-| - UI interactions           |
-+-----------------------------+
++---------------------------+
+|      Page Objects         |
+| - Locators & interactions |
++---------------------------+
 |
 v
-+-----------------------------+
-|     AbstractComponent       |
-| - Explicit waits            |
-| - Common UI helpers         |
-+-----------------------------+
++---------------------------+
+|   AbstractComponent       |
+| - Explicit waits & utils  |
++---------------------------+
 |
 v
-+-----------------------------+
-|     DriverManager           |
-| - Driver lifecycle          |
-+-----------------------------+
++---------------------------+
+|     Core Utilities        |
+| - DriverManager           |
+| - WebDriverFactory        |
+| - ConfigReader            |
++---------------------------+
 |
 v
-+-----------------------------+
-|    WebDriverFactory         |
-| - Browser setup             |
-+-----------------------------+
++---------------------------+
+|   Selenium WebDriver      |
++---------------------------+
 |
 v
-+-----------------------------+
-|      ConfigReader           |
-| - Env variables             |
-+-----------------------------+
++---------------------------+
+|     Allure Reports        |
+| - Steps, screenshots      |
+| - Retry history           |
++---------------------------+
 |
 v
-+-----------------------------+
-|   Selenium WebDriver        |
-+-----------------------------+
-|
-v
-+-----------------------------+
-|       Allure Reports        |
-| - Steps                     |
-| - Screenshots on failure    |
-| - Test history              |
-+-----------------------------+
-|
-v
-+-----------------------------+
-|      CI/CD Pipeline         |
-|     (GitHub Actions)        |
-+-----------------------------+
- 
++---------------------------+
+|     CI/CD Pipeline        |
+| - GitHub Actions          |
++---------------------------+
 
 ## 🧪 How to Run Tests
 
