@@ -44,16 +44,18 @@ Custom Config Reader
 
 ## 🧬 Architecture Diagram
 
+## 🧬 Architecture Diagram
+
 ```mermaid
 flowchart TB
-  A[TestNG suite<br/>testng.xml] --> B[Test Classes<br/>(Checkout, Cart, Login)]
-  B --> C[Steps Layer<br/>(business actions, @Step)]
-  C --> D[Page Objects<br/>(locators, interactions)]
-  D --> E[AbstractComponent<br/>(explicit waits, helpers)]
-  E --> F[Core Utilities<br/>DriverManager, WebDriverFactory, ConfigReader]
+  A[TestNG suite\ntestng.xml] --> B[Test Classes\n(Checkout, Cart, Login)]
+  B --> C[Steps Layer\n(business actions, @Step)]
+  C --> D[Page Objects\n(locators, interactions)]
+  D --> E[AbstractComponent\n(explicit waits, helpers)]
+  E --> F[Core Utilities\nDriverManager, WebDriverFactory, ConfigReader]
   F --> G[Selenium WebDriver]
-  G --> H[Allure Reports<br/>(steps, screenshots, retry history)]
-  H --> I[CI/CD Pipeline<br/>(GitHub Actions)]
+  G --> H[Allure Reports\n(steps, screenshots, retry history)]
+  H --> I[CI/CD Pipeline\n(GitHub Actions)]
 ```
 
 ## 🧪 How to Run Tests
