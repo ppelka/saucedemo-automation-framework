@@ -42,6 +42,19 @@ Custom Config Reader
             - allure.properties
             - testng.xml
 
+## 🧬 Architecture Diagram
+
+```mermaid
+flowchart TB
+  A["TestNG suite: testng.xml"] --> B["Test Classes: Checkout, Cart, Login"]
+  B --> C["Steps Layer: business actions, @Step"]
+  C --> D["Page Objects: locators, interactions"]
+  D --> E["AbstractComponent: explicit waits, helpers"]
+  E --> F["Core Utilities: DriverManager, WebDriverFactory, ConfigReader"]
+  F --> G["Selenium WebDriver"]
+  G --> H["Allure Reports: steps, screenshots, retry history"]
+  H --> I["CI/CD Pipeline: GitHub Actions"]
+```
 
 ## 🧪 How to Run Tests
 
