@@ -44,64 +44,17 @@ Custom Config Reader
 
 ## 🧬 Architecture Diagram
 
-+---------------------------+
-|   testng.xml (Suite)      |
-| - Suite / test definitions|
-| - Global listeners        |
-+---------------------------+
-|
-v
-+---------------------------+
-|      Test Classes         |
-| - CheckoutFlowTest        |
-| - AddProductToCartTest    |
-| - ParameterizedLoginTest  |
-+---------------------------+
-|
-v
-+---------------------------+
-|       Steps Layer         |
-| - Business actions        |
-| - Allure @Step annotations|
-+---------------------------+
-|
-v
-+---------------------------+
-|      Page Objects         |
-| - Locators & interactions |
-+---------------------------+
-|
-v
-+---------------------------+
-|   AbstractComponent       |
-| - Explicit waits & utils  |
-+---------------------------+
-|
-v
-+---------------------------+
-|     Core Utilities        |
-| - DriverManager           |
-| - WebDriverFactory        |
-| - ConfigReader            |
-+---------------------------+
-|
-v
-+---------------------------+
-|   Selenium WebDriver      |
-+---------------------------+
-|
-v
-+---------------------------+
-|     Allure Reports        |
-| - Steps, screenshots      |
-| - Retry history           |
-+---------------------------+
-|
-v
-+---------------------------+
-|     CI/CD Pipeline        |
-| - GitHub Actions          |
-+---------------------------+
+```mermaid
+flowchart TB
+  A[TestNG suite<br/>testng.xml] --> B[Test Classes<br/>(Checkout, Cart, Login)]
+  B --> C[Steps Layer<br/>(business actions, @Step)]
+  C --> D[Page Objects<br/>(locators, interactions)]
+  D --> E[AbstractComponent<br/>(explicit waits, helpers)]
+  E --> F[Core Utilities<br/>DriverManager, WebDriverFactory, ConfigReader]
+  F --> G[Selenium WebDriver]
+  G --> H[Allure Reports<br/>(steps, screenshots, retry history)]
+  H --> I[CI/CD Pipeline<br/>(GitHub Actions)]
+```
 
 ## 🧪 How to Run Tests
 
