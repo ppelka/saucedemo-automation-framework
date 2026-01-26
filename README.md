@@ -56,6 +56,32 @@ flowchart TB
   H --> I["CI/CD Pipeline: GitHub Actions"]
 ```
 
+## 🔑 Key Features
+
+- **Layered test architecture**  
+  A clean separation of responsibilities across TestNG suite → Test Classes → Steps (business layer) → Page Objects → AbstractComponent → Core Utilities → Selenium WebDriver → Allure → CI/CD. This structure keeps the framework maintainable, scalable, and easy to extend.
+
+- **Page Object Model with shared UI abstractions**  
+  Each page is represented by a dedicated Page Object, while common UI logic (explicit waits, interaction helpers, synchronization) is centralized in `AbstractComponent`. This eliminates duplication and ensures consistent behavior across the entire test suite.
+
+- **Robust WebDriver lifecycle management**  
+  `DriverManager` and `WebDriverFactory` handle browser creation, configuration, cleanup, and environment‑specific settings. This improves test stability and makes switching browsers or enabling headless mode effortless.
+
+- **Rich Allure reporting**  
+  Full integration with Allure (TestNG + AspectJ) provides step‑level reporting, screenshots on failure, retry history, attachments, and clean visual summaries. Reports are highly readable and ideal for debugging and stakeholder visibility.
+
+- **Automatic retry logic with full diagnostics**  
+  A custom `RetryAnalyzer` and TestNG listener automatically re‑run failed tests once. Allure records each attempt separately, including screenshots and logs, making flaky tests easy to identify and analyze.
+
+- **Flexible configuration system**  
+  `ConfigReader` merges system properties with `config.properties`, allowing dynamic control over browser type, headless mode, base URL, and other settings without modifying code. Perfect for multi‑environment execution.
+
+- **CI/CD ready (GitHub Actions)**  
+  A dedicated workflow runs tests on every push/PR, caches Maven dependencies, and uploads Allure results as artifacts. The project is prepared for further automation such as publishing reports or running tests in parallel.
+
+- **Readable, scenario‑focused tests**  
+  The Steps layer expresses business actions in a human‑friendly way, making tests easy to understand during reviews and suitable for collaboration with non‑technical stakeholders.
+
 ## 🧪 How to Run Tests
 
 1. Install dependencies
