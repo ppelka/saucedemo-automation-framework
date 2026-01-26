@@ -122,7 +122,7 @@ Below are example screenshots generated from the framework to illustrate how All
 
 ## 🔁 Retry Logic
 
-The framework includes a custom RetryAnalyzer that automatically re‑runs a test once if the initial execution fails.
+The framework includes a custom `RetryAnalyzer` that automatically re‑runs a test once if the initial execution fails.
 
 The retry mechanism is fully integrated with TestNG listeners
 
@@ -142,23 +142,21 @@ The Allure report included in this project contains an example test that illustr
 
 ## ⚙️ Configuration
 
-All configuration is stored in: src/test/resources/config.properties
+All configuration is stored in: `src/test/resources/config.properties`
 
-Loaded via ConfigReader class.
+Loaded via `ConfigReader` class.
 
 ## 🧪 Sample Test Scenarios
 
-✔ Valid login
+🔐 **Login verification (data‑driven)**  
+A parameterized TestNG test that validates the login process using multiple input datasets.  
+This approach demonstrates data‑driven testing rather than separate “valid/invalid login” test cases.
 
-❌ Invalid login
+🛒 **Add product to cart & remove it**  
+Covers the full cart interaction flow: adding an item, verifying cart contents, and removing the product.
 
-🛒 Add product to cart
-
-🧹 Remove product from cart
-
-🔍 Verify product catalog
-
-🔄 Multi-step product flow (coming soon)
+💳 **Complete checkout flow (end‑to‑end)**  
+Simulates a full purchase journey: login → add product → cart review → checkout information → order overview → order completion.
 
 ## 📦 CI/CD Integration (GitHub Actions)
 
@@ -188,23 +186,43 @@ The workflow runs automatically on every push and pull request to the `main` bra
 The workflow file is located at:
 `.github/workflows/maven-tests.yml`
 
-## 💡 Why This Project Matters
+## 🧠 Why This Framework Is Senior‑Level
 
-This framework demonstrates:
+This framework reflects engineering practices aligned with senior-level test automation. It goes beyond basic Selenium usage and demonstrates architectural thinking, maintainability, and CI/CD readiness.
 
-Clean automation architecture
+### ✅ Clean layered architecture
+Each layer has a clear responsibility:
+- **Test Classes** define scenarios
+- **Steps Layer** expresses business actions with `@Step` annotations
+- **Page Objects** encapsulate UI structure and behavior
+- **AbstractComponent** centralizes waits and helpers
+- **Core Utilities** manage drivers, config, and environment
 
-Real-world testing patterns
+This separation ensures scalability, readability, and ease of debugging.
 
-Reporting and diagnostics
+### ✅ Robust WebDriver lifecycle
+The framework uses `DriverManager` and `WebDriverFactory` to control browser setup, teardown, and configuration. This prevents flaky tests and supports headless execution, parallel runs, and environment switching.
 
-CI/CD readiness
+### ✅ Diagnostic reporting with Allure + AspectJ
+Allure is fully integrated via AspectJ weaving, enabling automatic step-level logging, screenshots on failure, retry history, and rich visual summaries. This level of observability is critical for debugging and stakeholder communication.
 
-Portfolio-quality engineering
+### ✅ Retry logic with full traceability
+A custom `RetryAnalyzer` and TestNG listener re-run failed tests once. Allure captures each attempt separately, including screenshots and logs, making flaky behavior easy to detect and analyze.
+
+### ✅ CI/CD integration
+The GitHub Actions workflow runs tests on every push/PR, caches dependencies, and uploads Allure results as artifacts. This ensures fast feedback and prepares the project for future automation like report publishing or grid execution.
+
+### ✅ Defensive programming and explicit waits
+The framework avoids brittle locators and race conditions by using explicit waits, visibility checks, and helper methods. This improves test reliability and reduces false negatives.
+
+### ✅ Configuration abstraction
+The `ConfigReader` supports layered config resolution (system properties → config file → defaults), enabling flexible control over browser type, base URL, and execution mode.
+
+### ✅ Portfolio-quality engineering
+The project is documented, modular, and visually polished. It includes architecture diagrams, sample reports, and a build badge — all designed to showcase professional automation skills to recruiters and teams.
+
 
 ## 📌 Future Improvements
-
-[ ] Add more test scenarios
 
 [ ] Add Docker Selenium Grid
 
