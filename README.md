@@ -160,19 +160,33 @@ Loaded via ConfigReader class.
 
 🔄 Multi-step product flow (coming soon)
 
-## 📦 CI/CD Integration (coming soon)
+## 📦 CI/CD Integration (GitHub Actions)
 
-Planned GitHub Actions workflow:
+This project includes a fully configured CI pipeline using GitHub Actions.  
+The workflow runs automatically on every push and pull request to the `main` branch.
 
-Build project
+### What the pipeline does
 
-Run tests
+- **Checks out the repository**
+- **Sets up JDK 17** using Temurin distribution
+- **Caches Maven dependencies** for faster builds
+- **Runs the full TestNG suite** via `mvn clean test`
+- **Collects Allure results** generated during the run
+- **Uploads `allure-results` as a downloadable artifact**
+- **Provides a build status badge** visible at the top of this README
 
-Generate Allure results
+### Why it matters
 
-Upload report as artifact
+- Ensures consistent, repeatable test execution across environments
+- Makes test results available directly from the CI pipeline
+- Enables future enhancements such as:
+    - publishing Allure reports automatically
+    - running tests in parallel
+    - integrating with Selenium Grid or Docker
+    - triggering nightly regression runs
 
-Add build & test badges to README
+The workflow file is located at:
+`.github/workflows/maven-tests.yml`
 
 ## 💡 Why This Project Matters
 
@@ -195,10 +209,6 @@ Portfolio-quality engineering
 [ ] Add Docker Selenium Grid
 
 [ ] Add environment switching
-
-[ ] Add badges
-
-[ ] Add architecture diagram
 
 ## 📜 License
 
