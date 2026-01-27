@@ -1,8 +1,10 @@
 ## 🧪 SauceDemo Automation Framework
 
-UI test automation framework for SauceDemo built with Selenium WebDriver, TestNG, Allure, and the Page Object Model.Designed for clean architecture, rich reporting, and CI/CD integration.
+UI test automation framework for SauceDemo built with Selenium WebDriver, TestNG, Allure, and the Page Object Model. Designed for clean architecture, rich reporting, and CI/CD integration.
 
 ![Build](https://github.com/ppelka/saucedemo-automation-framework/actions/workflows/maven-tests.yml/badge.svg)
+
+🔗 Application under test: https://www.saucedemo.com/
 
 ## 🚀 Technologies Used
 
@@ -82,30 +84,99 @@ flowchart TB
 - **Readable, scenario‑focused tests**  
   The Steps layer expresses business actions in a human‑friendly way, making tests easy to understand during reviews and suitable for collaboration with non‑technical stakeholders.
 
+## 🔄 How It Works (Test Flow)
+
+This framework follows a clean, layered execution flow that keeps tests readable, maintainable, and easy to debug.  
+A single test run moves through the following stages:
+
+1. **TestNG Suite (`testng.xml`)**  
+   The entry point that defines which tests to run and provides suite‑level configuration.
+
+2. **Test Class**  
+   Contains the high‑level scenario (e.g., login, cart flow, checkout).  
+   Each test delegates business actions to the Steps layer.
+
+3. **Steps Layer (@Step methods)**  
+   Expresses business logic in a human‑readable way.  
+   All methods are annotated with `@Step`, and AspectJ automatically logs them into Allure.
+
+4. **Page Objects**  
+   Encapsulate UI structure and interactions for each page.  
+   They delegate shared behavior to `AbstractComponent`.
+
+5. **AbstractComponent**  
+   Provides reusable UI helpers such as explicit waits, element lookup, and synchronization.  
+   Ensures stable and consistent interactions across all Page Objects.
+
+6. **Core Utilities**
+    - `DriverManager` manages WebDriver lifecycle
+    - `WebDriverFactory` configures browser instances
+    - `ConfigReader` resolves environment settings  
+      These utilities ensure stable, environment‑agnostic execution.
+
+7. **Selenium WebDriver**  
+   Executes browser actions triggered by Page Objects and Steps.
+
+8. **Allure Reporting**  
+   Captures step‑level logs, screenshots, retry attempts, and execution metadata.  
+   Allure results are stored in `target/allure-results`.
+
+9. **CI/CD Pipeline (GitHub Actions)**  
+   On every push/PR, the pipeline runs the full suite, caches dependencies, and uploads Allure results as artifacts.
+
+This flow keeps responsibilities clearly separated and ensures that each test is easy to understand, debug, and extend.
+
 ## 🧪 How to Run Tests
 
-1. Install dependencies
-
+1. **Install dependencies**
+```bash
 mvn clean install
-
-2. Run tests
-
+```
+2. **Run the full TestNG suite**
+```bash
 mvn test
-
-3. Generate Allure Report
-
+```
+3. **Generate the Allure report locally**
+```bash
 allure serve target/allure-results
+```
+### Additional notes
+
+- **Retry logic**  
+  Failed tests are automatically re‑run once using a custom `RetryAnalyzer`.  
+  Allure records each attempt separately, making flaky behavior easy to diagnose.
+
+- **Allure step logging (AspectJ weaver)**  
+  The framework uses the AspectJ Java agent (configured in the Surefire plugin) to intercept `@Step` methods.  
+  This enables automatic step‑level reporting without writing manual logging code.
 
 ## 📊 Allure Reporting
 
-Each test step is annotated with @Step
+Allure provides rich, visual reporting for every test execution.  
+This framework integrates Allure with TestNG using AspectJ weaving, which automatically captures:
 
-Automatic screenshot capture on failure
+- step‑level execution (`@Step` methods)
+- screenshots on failure
+- retry attempts and their history
+- attachments and metadata
+- execution timeline and environment details
 
-Attachments for logs and diagnostics
+### How it works
 
-Results stored in target/allure-results
+The Surefire plugin runs the JVM with the AspectJ Java agent:
 
+- All methods annotated with `@Step` are intercepted at runtime
+- Each intercepted call is logged as a step in the Allure report
+- Failures trigger automatic screenshot capture
+- Retry attempts are grouped and displayed clearly in the UI
+
+Allure results are stored in:
+`target/allure-results`
+
+You can generate a local report using:
+```bash
+allure serve target/allure-results
+```
 ## 📊 Sample Allure Report
 
 Below are example screenshots generated from the framework to illustrate how Allure presents test execution, failures, and retry attempts.
@@ -124,17 +195,14 @@ Below are example screenshots generated from the framework to illustrate how All
 
 The framework includes a custom `RetryAnalyzer` that automatically re‑runs a test once if the initial execution fails.
 
-The retry mechanism is fully integrated with TestNG listeners
+The retry mechanism is fully integrated with TestNG listeners.
 
-Allure records every test attempt, including retries
+Allure records every test attempt, including retries.
 
 The report clearly shows:
-
-which attempt passed or failed
-
-full diagnostics for each attempt (screenshot, page source, console logs)
-
-a complete execution timeline for debugging
+- which attempt passed or failed
+- full diagnostics for each attempt (screenshot, page source, console logs)
+- a complete execution timeline for debugging
 
 This approach provides visibility into potentially flaky scenarios and demonstrates how the framework handles failures, captures detailed diagnostics, and presents retry history in Allure.
 
