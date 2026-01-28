@@ -2,8 +2,6 @@
 # Maven build output
 ###############################################
 target/
-!**/src/main/**/target/
-!**/src/test/**/target/
 
 ###############################################
 # IntelliJ IDEA
@@ -13,7 +11,9 @@ target/
 *.iws
 *.ipr
 
+###############################################
 # IntelliJ specific files
+###############################################
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
@@ -39,14 +39,17 @@ logs/
 ###############################################
 # Maven Wrapper
 ###############################################
-.mvn/
-!/.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+mvnw
+mvnw.cmd
 
 ###############################################
 # Allure
 ###############################################
 allure-results/
 allure-report/
+.allure/
 
 ###############################################
 # WebDriverManager cache
