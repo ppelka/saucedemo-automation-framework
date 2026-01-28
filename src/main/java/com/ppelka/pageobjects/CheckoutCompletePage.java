@@ -26,17 +26,12 @@ public class CheckoutCompletePage extends AbstractComponent {
     // Page identity
     // ============================================================
 
-    /**
-     * Confirms that the current page is the checkout complete page.
-     */
     @Override
     public boolean isAt() {
-        return driver.getCurrentUrl().contains("checkout-complete");
+        return driver.getCurrentUrl().contains("checkout-complete")
+                && !findAll(completeHeader).isEmpty();
     }
 
-    /**
-     * Waits until the checkout complete page is fully loaded.
-     */
     public void waitForPageToLoad() {
         waitForVisible(completeHeader);
     }
@@ -45,9 +40,6 @@ public class CheckoutCompletePage extends AbstractComponent {
     // Verification
     // ============================================================
 
-    /**
-     * Returns true if the order success message is visible.
-     */
     public boolean isOrderSuccessMessageVisible() {
         return find(completeHeader).isDisplayed();
     }
