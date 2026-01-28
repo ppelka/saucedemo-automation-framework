@@ -10,9 +10,14 @@ import java.time.Duration;
 import java.util.List;
 
 /**
- * Base class for all Page Objects.
- * Provides common WebDriver utilities, explicit wait helpers,
- * and a consistent interaction layer for UI components.
+ * Base class for all Page Objects and reusable UI components.
+ * Provides:
+ *  - Stable element lookup
+ *  - Explicit wait utilities
+ *  - Safe interaction helpers (click, type, getText)
+ *  - Page identity contract (isAt)
+ *
+ * Ensures consistent and reliable interactions across the entire framework.
  */
 public abstract class AbstractComponent {
 
@@ -30,17 +35,11 @@ public abstract class AbstractComponent {
     // Element lookup helpers
     // ============================================================
 
-    /**
-     * Finds a single element and waits until it is present in the DOM.
-     */
     protected WebElement find(By locator) {
         log.debug("Finding element: {}", locator);
         return wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
-    /**
-     * Finds all matching elements without waiting.
-     */
     protected List<WebElement> findAll(By locator) {
         log.debug("Finding all elements: {}", locator);
         return driver.findElements(locator);
@@ -50,59 +49,72 @@ public abstract class AbstractComponent {
     // Explicit wait utilities
     // ============================================================
 
-    /**
-     * Waits until the element located by the given locator becomes visible.
-     */
     protected WebElement waitForVisible(By locator) {
         log.debug("Waiting for visibility of: {}", locator);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    /**
-     * Waits until the given WebElement becomes visible.
-     */
     protected WebElement waitForVisible(WebElement element) {
         log.debug("Waiting for visibility of WebElement: {}", element);
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    /**
-     * Waits until the element becomes clickable.
-     */
     protected WebElement waitForClickable(By locator) {
         log.debug("Waiting for element to be clickable: {}", locator);
         return wait.until(ExpectedConditions.elementToBeClickable(locator));
     }
 
-    /**
-     * Waits until the element located by the given locator becomes invisible.
-     */
     protected void waitForInvisibility(By locator) {
         log.debug("Waiting for invisibility of: {}", locator);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
-    /**
-     * Waits until the text of the element changes or the element disappears.
-     */
     protected void waitForTextToDisappear(By locator, String text) {
-        log.debug("Waiting for text '{}' to disappear from element: {}", text, locator);
+        log.debug("Waiting for text '{}' to disappear from: {}", text, locator);
         wait.until(driver -> {
             try {
                 String current = driver.findElement(locator).getText();
                 return !current.equals(text);
             } catch (NoSuchElementException ignored) {
-                return true; // element removed from DOM
+                return true;
             }
         });
     }
 
-    /**
-     * Waits until the current URL contains the given fragment.
-     */
     protected void waitForUrlContains(String fragment) {
         log.debug("Waiting for URL to contain: {}", fragment);
         wait.until(ExpectedConditions.urlContains(fragment));
+    }
+
+    // ============================================================
+    // Safe interaction helpers
+    // ============================================================
+
+    protected void click(By locator) {
+        log.debug("Clicking element: {}", locator);
+        WebElement element = waitForClickable(locator);
+        try {
+            element.click();
+        } catch (ElementClickInterceptedException e) {
+            log.warn("Click intercepted, retrying with JS: {}", locator);
+            jsClick(element);
+        }
+    }
+
+    protected void type(By locator, String text) {
+        log.debug("Typing '{}' into element: {}", text, locator);
+        WebElement element = waitForVisible(locator);
+        element.clear();
+        element.sendKeys(text);
+    }
+
+    protected String getText(By locator) {
+        log.debug("Getting text from: {}", locator);
+        return waitForVisible(locator).getText();
+    }
+
+    protected void jsClick(WebElement element) {
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
     }
 
     // ============================================================
