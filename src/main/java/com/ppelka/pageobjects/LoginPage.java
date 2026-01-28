@@ -14,11 +14,8 @@ public class LoginPage extends AbstractComponent {
     // Locators
     // ============================================================
 
-    /**
-     * Base URL for the application.
-     * Can be overridden via -Dbase.url system property.
-     */
-    private final String BASE_URL = System.getProperty("base.url", "https://www.saucedemo.com/");
+    private static final String DEFAULT_URL = "https://www.saucedemo.com/";
+    private final String BASE_URL = System.getProperty("base.url", DEFAULT_URL);
 
     private final By usernameField = By.id("user-name");
     private final By passwordField = By.id("password");
@@ -38,17 +35,12 @@ public class LoginPage extends AbstractComponent {
     // Page identity
     // ============================================================
 
-    /**
-     * Confirms that the current page is the login page.
-     */
     @Override
     public boolean isAt() {
-        return driver.getCurrentUrl().contains("saucedemo.com");
+        return driver.getCurrentUrl().contains("saucedemo.com")
+                && findAll(usernameField).size() > 0;
     }
 
-    /**
-     * Waits until the login page is fully loaded.
-     */
     public void waitForPageToLoad() {
         waitForVisible(usernameField);
     }
@@ -57,49 +49,29 @@ public class LoginPage extends AbstractComponent {
     // Actions
     // ============================================================
 
-    /**
-     * Navigates to the login page and waits until it is ready.
-     */
     public void goTo() {
         driver.get(BASE_URL);
         waitForPageToLoad();
     }
 
-    /**
-     * Performs a valid login and returns the ProductCatalog page object.
-     */
     public ProductCatalog loginValid(String username, String password) {
-        find(usernameField).clear();
-        find(passwordField).clear();
+        type(usernameField, username);
+        type(passwordField, password);
+        click(loginButton);
 
-        find(usernameField).sendKeys(username);
-        find(passwordField).sendKeys(password);
-        find(loginButton).click();
-
-        // Wait until redirected to the inventory page
         waitForVisible(inventoryItem);
         return new ProductCatalog(driver);
     }
 
-    /**
-     * Attempts to log in with invalid credentials.
-     * Waits until the error message becomes visible.
-     */
     public void loginInvalid(String username, String password) {
-        find(usernameField).clear();
-        find(passwordField).clear();
-
-        find(usernameField).sendKeys(username);
-        find(passwordField).sendKeys(password);
-        find(loginButton).click();
+        type(usernameField, username);
+        type(passwordField, password);
+        click(loginButton);
 
         waitForVisible(loginError);
     }
 
-    /**
-     * Returns the text of the login error message.
-     */
     public String getLoginErrorMessage() {
-        return find(loginError).getText();
+        return getText(loginError);
     }
 }
