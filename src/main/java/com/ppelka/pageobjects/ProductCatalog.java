@@ -14,12 +14,12 @@ public class ProductCatalog extends AbstractComponent {
     // ============================================================
     // Locators
     // ============================================================
-    private final By productCard        = By.cssSelector(".inventory_item");
-    private final By productName        = By.cssSelector(".inventory_item_name");
-    private final By addToCartButton    = By.cssSelector("button.btn_primary.btn_small");
-    private final By removeButton       = By.cssSelector("button.btn_secondary.btn_small");
-    private final By cartBadge          = By.className("shopping_cart_badge");
-    private final By shoppingCartLink   = By.cssSelector("a.shopping_cart_link");
+    private final By productCard      = By.cssSelector(".inventory_item");
+    private final By productName      = By.cssSelector(".inventory_item_name");
+    private final By addToCartButton  = By.cssSelector("button.btn_primary.btn_small");
+    private final By removeButton     = By.cssSelector("button.btn_secondary.btn_small");
+    private final By cartBadge        = By.className("shopping_cart_badge");
+    private final By shoppingCartLink = By.cssSelector("a.shopping_cart_link");
 
     // ============================================================
     // Constructor
@@ -32,17 +32,12 @@ public class ProductCatalog extends AbstractComponent {
     // Page identity
     // ============================================================
 
-    /**
-     * Confirms that the current page is the product catalog.
-     */
     @Override
     public boolean isAt() {
-        return driver.getCurrentUrl().contains("inventory");
+        return driver.getCurrentUrl().contains("inventory")
+                && !findAll(productCard).isEmpty();
     }
 
-    /**
-     * Waits until the product catalog is fully loaded.
-     */
     public void waitForPageToLoad() {
         waitForVisible(productCard);
     }
@@ -51,10 +46,6 @@ public class ProductCatalog extends AbstractComponent {
     // Helpers
     // ============================================================
 
-    /**
-     * Finds a product card by its displayed name.
-     * Throws an exception if the product is not found.
-     */
     private WebElement getProductCard(String name) {
         waitForPageToLoad();
         return findAll(productCard).stream()
@@ -67,41 +58,34 @@ public class ProductCatalog extends AbstractComponent {
     // Actions
     // ============================================================
 
-    /**
-     * Adds a product to the cart by its name.
-     * Waits until the "Remove" button becomes visible.
-     */
     public void addProduct(String name) {
         WebElement card = getProductCard(name);
-        card.findElement(addToCartButton).click();
+        WebElement addBtn = card.findElement(addToCartButton);
+
+        try {
+            addBtn.click();
+        } catch (Exception e) {
+            // fallback to JS click if intercepted
+            jsClick(addBtn);
+        }
+
         waitForVisible(card.findElement(removeButton));
     }
 
-    /**
-     * Checks whether the "Remove" button is visible for a given product.
-     * Used to confirm that the product was successfully added to the cart.
-     */
     public boolean isRemoveButtonVisible(String name) {
         WebElement card = getProductCard(name);
         return card.findElement(removeButton).isDisplayed();
     }
 
-    /**
-     * Returns the number displayed in the cart badge.
-     * Returns "0" if the badge is not present.
-     */
     public String getCartQuantity() {
         if (findAll(cartBadge).isEmpty()) {
             return "0";
         }
-        return find(cartBadge).getText();
+        return getText(cartBadge);
     }
 
-    /**
-     * Navigates to the cart page and waits until it is fully loaded.
-     */
     public CartPage goToCartPage() {
-        find(shoppingCartLink).click();
+        click(shoppingCartLink);
         CartPage cartPage = new CartPage(driver);
         cartPage.waitForPageToLoad();
         return cartPage;
