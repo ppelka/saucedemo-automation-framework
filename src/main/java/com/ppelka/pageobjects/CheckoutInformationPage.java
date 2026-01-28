@@ -13,10 +13,10 @@ public class CheckoutInformationPage extends AbstractComponent {
     // ============================================================
     // Locators
     // ============================================================
-    private final By firstNameField = By.id("first-name");
-    private final By lastNameField  = By.id("last-name");
-    private final By postalCodeField = By.id("postal-code");
-    private final By continueButton = By.id("continue");
+    private final By firstNameField   = By.id("first-name");
+    private final By lastNameField    = By.id("last-name");
+    private final By postalCodeField  = By.id("postal-code");
+    private final By continueButton   = By.id("continue");
 
     // ============================================================
     // Constructor
@@ -29,17 +29,12 @@ public class CheckoutInformationPage extends AbstractComponent {
     // Page identity
     // ============================================================
 
-    /**
-     * Confirms that the current page is the checkout information page.
-     */
     @Override
     public boolean isAt() {
-        return driver.getCurrentUrl().contains("checkout-step-one");
+        return driver.getCurrentUrl().contains("checkout-step-one")
+                && !findAll(firstNameField).isEmpty();
     }
 
-    /**
-     * Waits until the checkout information page is fully loaded.
-     */
     public void waitForPageToLoad() {
         waitForVisible(firstNameField);
     }
@@ -48,38 +43,23 @@ public class CheckoutInformationPage extends AbstractComponent {
     // Actions
     // ============================================================
 
-    /**
-     * Enters the customer's first name.
-     */
     public CheckoutInformationPage enterFirstName(String firstName) {
-        find(firstNameField).clear();
-        find(firstNameField).sendKeys(firstName);
+        type(firstNameField, firstName);
         return this;
     }
 
-    /**
-     * Enters the customer's last name.
-     */
     public CheckoutInformationPage enterLastName(String lastName) {
-        find(lastNameField).clear();
-        find(lastNameField).sendKeys(lastName);
+        type(lastNameField, lastName);
         return this;
     }
 
-    /**
-     * Enters the customer's postal code.
-     */
     public CheckoutInformationPage enterPostalCode(String postalCode) {
-        find(postalCodeField).clear();
-        find(postalCodeField).sendKeys(postalCode);
+        type(postalCodeField, postalCode);
         return this;
     }
 
-    /**
-     * Proceeds to the checkout overview page.
-     */
     public CheckoutOverviewPage continueToOverview() {
-        find(continueButton).click();
+        click(continueButton);
         CheckoutOverviewPage overviewPage = new CheckoutOverviewPage(driver);
         overviewPage.waitForPageToLoad();
         return overviewPage;
