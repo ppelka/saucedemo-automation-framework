@@ -11,65 +11,53 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.util.Map;
 
-/**
- * Central WebDriver factory.
- *
- * Responsibilities:
- *  - Normalizes browser names
- *  - Applies consistent configuration across browsers
- *  - Supports headless mode (useful for CI/CD)
- *  - Provides stable, hardened browser options for automation
- */
 public final class WebDriverFactory {
 
-    private WebDriverFactory() {
-        // Utility class; prevent instantiation
+    private WebDriverFactory() {}
+
+    public enum BrowserType {
+        CHROME, FIREFOX, EDGE;
+
+        public static BrowserType from(String value) {
+            if (value == null || value.isBlank()) return CHROME;
+            switch (value.trim().toLowerCase()) {
+                case "firefox":
+                case "ff":
+                    return FIREFOX;
+                case "edge":
+                    return EDGE;
+                default:
+                    return CHROME;
+            }
+        }
     }
 
-    /**
-     * Creates a WebDriver instance based on the provided browser name.
-     * Falls back to Chrome if the name is missing or invalid.
-     */
     public static WebDriver createDriver(String browserName) {
 
-        // Normalize browser name
-        String browser = (browserName == null || browserName.isBlank())
-                ? "chrome"
-                : browserName.trim().toLowerCase();
-
-        // Headless mode (default: false)
+        BrowserType type = BrowserType.from(browserName);
         boolean headless = ConfigReader.getBoolean("headless", false);
 
-        switch (browser) {
-
-            case "firefox":
-            case "ff":
+        switch (type) {
+            case FIREFOX:
                 WebDriverManager.firefoxdriver().setup();
-                return createFirefoxDriver(headless);
+                return firefox(headless);
 
-            case "edge":
+            case EDGE:
                 WebDriverManager.edgedriver().setup();
-                return createEdgeDriver(headless);
+                return edge(headless);
 
-            case "chrome":
+            case CHROME:
             default:
                 WebDriverManager.chromedriver().setup();
-                return createChromeDriver(headless);
+                return chrome(headless);
         }
     }
 
-    // ============================================================
-    // Chrome
-    // ============================================================
-
-    private static WebDriver createChromeDriver(boolean headless) {
+    private static WebDriver chrome(boolean headless) {
         ChromeOptions options = new ChromeOptions();
 
-        if (headless) {
-            options.addArguments("--headless=new");
-        }
+        if (headless) options.addArguments("--headless=new");
 
-        // Stable automation flags (recommended for CI/CD)
         options.addArguments(
                 "--disable-gpu",
                 "--no-sandbox",
@@ -77,59 +65,28 @@ public final class WebDriverFactory {
                 "--disable-popup-blocking",
                 "--disable-notifications",
                 "--disable-extensions",
-                "--disable-features=PasswordCheck",
-                "--disable-features=PasswordLeakDetection",
-                "--disable-features=SafetyCheck",
-                "--disable-features=SafeBrowsingEnhancedProtection",
-                "--disable-features=SafeBrowsingProtection",
-                "--disable-features=OptimizationGuideModelDownloading",
                 "--window-size=1920,1080"
         );
 
-        // Disable password manager and safe browsing prompts
         options.setExperimentalOption("prefs", Map.of(
                 "credentials_enable_service", false,
-                "profile.password_manager_enabled", false,
-                "safebrowsing.enabled", false
+                "profile.password_manager_enabled", false
         ));
 
         return new ChromeDriver(options);
     }
 
-    // ============================================================
-    // Firefox
-    // ============================================================
-
-    private static WebDriver createFirefoxDriver(boolean headless) {
+    private static WebDriver firefox(boolean headless) {
         FirefoxOptions options = new FirefoxOptions();
-
-        if (headless) {
-            options.addArguments("--headless");
-        }
-
+        if (headless) options.addArguments("--headless");
         options.addArguments("--width=1920", "--height=1080");
-
         return new FirefoxDriver(options);
     }
 
-    // ============================================================
-    // Edge
-    // ============================================================
-
-    private static WebDriver createEdgeDriver(boolean headless) {
+    private static WebDriver edge(boolean headless) {
         EdgeOptions options = new EdgeOptions();
-
-        if (headless) {
-            options.addArguments("--headless=new");
-        }
-
-        options.addArguments(
-                "--disable-gpu",
-                "--no-sandbox",
-                "--disable-dev-shm-usage",
-                "--window-size=1920,1080"
-        );
-
+        if (headless) options.addArguments("--headless=new");
+        options.addArguments("--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage", "--window-size=1920,1080");
         return new EdgeDriver(options);
     }
 }

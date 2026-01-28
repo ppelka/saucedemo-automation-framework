@@ -3,33 +3,29 @@ package com.ppelka.core;
 import org.openqa.selenium.WebDriver;
 
 /**
- * Thread-safe WebDriver manager.
- *
- * Stores a separate WebDriver instance per thread using ThreadLocal,
- * enabling parallel test execution without driver collisions.
+ * Thread-safe WebDriver manager using ThreadLocal.
+ * Ensures each test thread receives its own isolated WebDriver instance.
  */
-public class DriverManager {
+public final class DriverManager {
 
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    /**
-     * Returns the WebDriver instance associated with the current thread.
-     */
+    private DriverManager() {
+        // Prevent instantiation
+    }
+
     public static WebDriver getDriver() {
         return driver.get();
     }
 
-    /**
-     * Assigns a WebDriver instance to the current thread.
-     */
     public static void setDriver(WebDriver driverInstance) {
         driver.set(driverInstance);
     }
 
-    /**
-     * Quits and removes the WebDriver instance for the current thread.
-     * Ensures proper cleanup during parallel execution.
-     */
+    public static boolean hasDriver() {
+        return driver.get() != null;
+    }
+
     public static void quitDriver() {
         WebDriver instance = driver.get();
         if (instance != null) {
