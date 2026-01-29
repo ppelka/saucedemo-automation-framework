@@ -25,29 +25,27 @@ public class CartSteps {
     // Verification steps
     // ============================================================
 
-    /**
-     * Verifies that a product is visible in the cart.
-     */
     @Step("Verify product visible in cart: {productName}")
     public CartSteps verifyProductVisible(String productName) {
         log.info("Verifying product visible in cart: {}", productName);
+
         Assert.assertTrue(
                 cartPage.isProductVisible(productName),
-                "Product not visible in cart: " + productName
+                "Expected product to be visible in cart: " + productName
         );
+
         return this;
     }
 
-    /**
-     * Verifies that the cart is empty.
-     */
     @Step("Verify cart is empty")
     public CartSteps verifyCartIsEmpty() {
         log.info("Verifying cart is empty");
+
         Assert.assertTrue(
                 cartPage.isCartEmpty(),
-                "Cart is not empty"
+                "Cart is not empty but should be"
         );
+
         return this;
     }
 
@@ -55,22 +53,31 @@ public class CartSteps {
     // Action steps
     // ============================================================
 
-    /**
-     * Removes a product from the cart.
-     */
     @Step("Remove product from cart: {productName}")
     public CartSteps removeProduct(String productName) {
         log.info("Removing product from cart: {}", productName);
+
         cartPage.removeProduct(productName);
+
+        Assert.assertFalse(
+                cartPage.isProductVisible(productName),
+                "Product still visible in cart after removal: " + productName
+        );
+
         return this;
     }
 
-    /**
-     * Proceeds from the cart page to the checkout information page.
-     */
     @Step("Proceed to checkout information page")
     public CheckoutInformationPage proceedToCheckout() {
         log.info("Proceeding to checkout information page");
-        return cartPage.proceedToCheckout();
+
+        CheckoutInformationPage infoPage = cartPage.proceedToCheckout();
+
+        Assert.assertTrue(
+                infoPage.isAt(),
+                "Checkout Information page failed to load after navigation"
+        );
+
+        return infoPage;
     }
 }

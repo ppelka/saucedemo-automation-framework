@@ -20,16 +20,19 @@ public class CheckoutCompleteSteps {
         this.completePage = completePage;
     }
 
-    /**
-     * Verifies that the order success message is visible.
-     */
+    // ============================================================
+    // Verification steps
+    // ============================================================
+
     @Step("Verify order success message is visible")
     public CheckoutCompleteSteps verifyOrderSuccess() {
         log.info("Verifying order success message");
+
         Assert.assertTrue(
                 completePage.isOrderSuccessMessageVisible(),
-                "Order success message not visible"
+                "Expected order success message to be visible, but it was not"
         );
+
         return this;
     }
 }
