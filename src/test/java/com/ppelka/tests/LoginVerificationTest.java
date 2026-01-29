@@ -1,6 +1,5 @@
 package com.ppelka.tests;
 
-import com.ppelka.pageobjects.ProductCatalog;
 import com.ppelka.testbase.BaseTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -32,10 +31,9 @@ public class LoginVerificationTest extends BaseTest {
         loginSteps.openLoginPage();
 
         if (shouldSucceed) {
-            ProductCatalog catalog = loginSteps.loginValid(username, password);
+            loginSteps.loginValid(username, password);
         } else {
-            loginSteps
-                    .loginInvalid(username, password)
+            loginSteps.loginInvalid(username, password)
                     .verifyLoginError("Epic sadface");
         }
     }
