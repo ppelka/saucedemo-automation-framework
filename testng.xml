@@ -12,7 +12,7 @@
         <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
 
         <!-- Retry mechanism applied to all tests -->
-        <listener class-name="com.ppelka.testbase.RetryListener"/>
+        <listener class-name="com.ppelka.listeners.RetryListener"/>
     </listeners>
 
     <!-- ============================================================
