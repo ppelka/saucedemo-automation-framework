@@ -36,13 +36,15 @@ Custom Config Reader
             - pageobjects/
     - test/
         - java/com.ppelka/
+            - data/
+            - listeners/
             - steps/
             - testbase/
             - tests/
+            - utils/
         - resources/
             - config.properties
             - allure.properties
-            - testng.xml
 
 ## 🧬 Architecture Diagram
 
@@ -60,68 +62,101 @@ flowchart TB
 
 ## 🔑 Key Features
 
-- **Layered test architecture**  
-  A clean separation of responsibilities across TestNG suite → Test Classes → Steps (business layer) → Page Objects → AbstractComponent → Core Utilities → Selenium WebDriver → Allure → CI/CD. This structure keeps the framework maintainable, scalable, and easy to extend.
+### ✔ Layered test architecture
+- Clear separation of responsibilities:
+- TestNG suite
+- Test classes
+- Steps (business layer)
+- Page Objects
+- AbstractComponent
+- Core utilities
+- WebDriver
+- Allure
+- CI/CD
 
-- **Page Object Model with shared UI abstractions**  
-  Each page is represented by a dedicated Page Object, while common UI logic (explicit waits, interaction helpers, synchronization) is centralized in `AbstractComponent`. This eliminates duplication and ensures consistent behavior across the entire test suite.
+### ✔ Steps layer (business‑level API)
+All tests use fluent Steps instead of Page Objects.
+This makes scenarios readable and stable:
 
-- **Robust WebDriver lifecycle management**  
-  `DriverManager` and `WebDriverFactory` handle browser creation, configuration, cleanup, and environment‑specific settings. This improves test stability and makes switching browsers or enabling headless mode effortless.
+```java
+loginSteps.openLoginPage()
+          .loginValid("standard_user", "secret_sauce");
 
-- **Rich Allure reporting**  
-  Full integration with Allure (TestNG + AspectJ) provides step‑level reporting, screenshots on failure, retry history, attachments, and clean visual summaries. Reports are highly readable and ideal for debugging and stakeholder visibility.
+productSteps.addProduct("Sauce Labs Backpack")
+            .verifyCartQuantity("1")
+            .goToCart();
+```
+### ✔ Page Object Model with shared UI abstractions
+Common waits and helpers live in AbstractComponent.
 
-- **Automatic retry logic with full diagnostics**  
-  A custom `RetryAnalyzer` and TestNG listener automatically re‑run failed tests once. Allure records each attempt separately, including screenshots and logs, making flaky tests easy to identify and analyze.
+### ✔ Robust WebDriver lifecycle
+DriverManager + WebDriverFactory ensure clean setup and teardown.
 
-- **Flexible configuration system**  
-  `ConfigReader` merges system properties with `config.properties`, allowing dynamic control over browser type, headless mode, base URL, and other settings without modifying code. Perfect for multi‑environment execution.
+### ✔ Allure reporting with automatic step logging
+AspectJ weaves all @Step methods into Allure reports.
 
-- **CI/CD ready (GitHub Actions)**  
-  A dedicated workflow runs tests on every push/PR, caches Maven dependencies, and uploads Allure results as artifacts. The project is prepared for further automation such as publishing reports or running tests in parallel.
+### ✔ Retry logic with full diagnostics
+Failed tests are automatically retried once.
 
-- **Readable, scenario‑focused tests**  
-  The Steps layer expresses business actions in a human‑friendly way, making tests easy to understand during reviews and suitable for collaboration with non‑technical stakeholders.
+Allure shows retry history with screenshots.
+
+### ✔ Flexible configuration
+ConfigReader merges system properties with config.properties.
+
+### ✔ CI/CD ready
+GitHub Actions workflow runs tests on every push/PR.
 
 ## 🔄 How It Works (Test Flow)
 
 This framework follows a clean, layered execution flow that keeps tests readable, maintainable, and easy to debug.  
 A single test run moves through the following stages:
 
-1. **TestNG Suite (`testng.xml`)**  
+1. **TestNG Suite (`testng.xml`)**
+
    The entry point that defines which tests to run and provides suite‑level configuration.
 
-2. **Test Class**  
-   Contains the high‑level scenario (e.g., login, cart flow, checkout).  
-   Each test delegates business actions to the Steps layer.
+2. **BaseTest**
+   
+   Initializes WebDriver, Page Objects, and all Steps.  
+   Tests never instantiate Steps manually.
 
-3. **Steps Layer (@Step methods)**  
+3. **Test Class**
+   
+   Contains only the scenario flow and delegates all actions to the Steps layer.
+
+4. **Steps Layer (@Step methods)**  
+  
    Expresses business logic in a human‑readable way.  
    All methods are annotated with `@Step`, and AspectJ automatically logs them into Allure.
 
-4. **Page Objects**  
+5. **Page Objects**  
+
    Encapsulate UI structure and interactions for each page.  
    They delegate shared behavior to `AbstractComponent`.
 
-5. **AbstractComponent**  
+6. **AbstractComponent**  
+
    Provides reusable UI helpers such as explicit waits, element lookup, and synchronization.  
    Ensures stable and consistent interactions across all Page Objects.
 
-6. **Core Utilities**
+7. **Core Utilities**
+
     - `DriverManager` manages WebDriver lifecycle
     - `WebDriverFactory` configures browser instances
     - `ConfigReader` resolves environment settings  
-      These utilities ensure stable, environment‑agnostic execution.
 
-7. **Selenium WebDriver**  
+   These utilities ensure stable, environment‑agnostic execution.
+
+8. **Selenium WebDriver**  
+
    Executes browser actions triggered by Page Objects and Steps.
 
-8. **Allure Reporting**  
+9. **Allure Reporting**  
+
    Captures step‑level logs, screenshots, retry attempts, and execution metadata.  
    Allure results are stored in `target/allure-results`.
 
-9. **CI/CD Pipeline (GitHub Actions)**  
+10. **CI/CD Pipeline (GitHub Actions)**  
    On every push/PR, the pipeline runs the full suite, caches dependencies, and uploads Allure results as artifacts.
 
 This flow keeps responsibilities clearly separated and ensures that each test is easy to understand, debug, and extend.
@@ -288,6 +323,9 @@ The `ConfigReader` supports layered config resolution (system properties → con
 
 ### ✅ Portfolio-quality engineering
 The project is documented, modular, and visually polished. It includes architecture diagrams, sample reports, and a build badge — all designed to showcase professional automation skills to recruiters and teams.
+
+### ✅ Fluent, scenario‑focused test layer
+All tests use a fluent Steps API, making scenarios expressive and eliminating direct Page Object usage in test classes.
 
 
 ## 📌 Future Improvements
