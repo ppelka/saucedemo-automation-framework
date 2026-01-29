@@ -3,10 +3,8 @@ package com.ppelka.testbase;
 import com.ppelka.core.ConfigReader;
 import com.ppelka.core.DriverManager;
 import com.ppelka.core.WebDriverFactory;
-import com.ppelka.pageobjects.LoginPage;
-import com.ppelka.steps.CartSteps;
-import com.ppelka.steps.LoginSteps;
-import com.ppelka.steps.ProductCatalogSteps;
+import com.ppelka.pageobjects.*;
+import com.ppelka.steps.*;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,15 +13,30 @@ import org.testng.annotations.*;
 
 import java.time.Duration;
 
+/**
+ * Base test class providing driver setup, teardown, and shared step/page initialization.
+ */
 public abstract class BaseTest {
 
     private static final Logger log = LoggerFactory.getLogger(BaseTest.class);
 
-    protected LoginPage loginPage;
+    protected WebDriver driver;
 
+    // Page Objects
+    protected LoginPage loginPage;
+    protected ProductCatalog productCatalog;
+    protected CartPage cartPage;
+    protected CheckoutInformationPage infoPage;
+    protected CheckoutOverviewPage overviewPage;
+    protected CheckoutCompletePage completePage;
+
+    // Steps
     protected LoginSteps loginSteps;
     protected ProductCatalogSteps productSteps;
     protected CartSteps cartSteps;
+    protected CheckoutInformationSteps infoSteps;
+    protected CheckoutOverviewSteps overviewSteps;
+    protected CheckoutCompleteSteps completeSteps;
 
     @Parameters("browser")
     @BeforeMethod(alwaysRun = true)
@@ -31,20 +44,19 @@ public abstract class BaseTest {
 
         log.info("=== START TEST SETUP ===");
 
-        String browser =
-                System.getProperty("browser") != null
-                        ? System.getProperty("browser")
-                        : (browserFromTestNG != null
-                        ? browserFromTestNG
-                        : ConfigReader.get("browser", "chrome"));
+        String browser = System.getProperty("browser") != null
+                ? System.getProperty("browser")
+                : (browserFromTestNG != null
+                ? browserFromTestNG
+                : ConfigReader.get("browser", "chrome"));
 
-        WebDriver driver = WebDriverFactory.createDriver(browser);
+        driver = WebDriverFactory.createDriver(browser);
         DriverManager.setDriver(driver);
 
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
 
-        initPageObjects(driver);
+        initPageObjects();
         initSteps();
 
         String url = ConfigReader.get("base.url");
@@ -54,12 +66,22 @@ public abstract class BaseTest {
         log.info("=== SETUP COMPLETE ===");
     }
 
-    private void initPageObjects(WebDriver driver) {
+    private void initPageObjects() {
         loginPage = new LoginPage(driver);
+        productCatalog = new ProductCatalog(driver);
+        cartPage = new CartPage(driver);
+        infoPage = new CheckoutInformationPage(driver);
+        overviewPage = new CheckoutOverviewPage(driver);
+        completePage = new CheckoutCompletePage(driver);
     }
 
     private void initSteps() {
         loginSteps = new LoginSteps(loginPage);
+        productSteps = new ProductCatalogSteps(productCatalog);
+        cartSteps = new CartSteps(cartPage);
+        infoSteps = new CheckoutInformationSteps(infoPage);
+        overviewSteps = new CheckoutOverviewSteps(overviewPage);
+        completeSteps = new CheckoutCompleteSteps(completePage);
     }
 
     @AfterMethod(alwaysRun = true)

@@ -21,25 +21,37 @@ public class CheckoutOverviewSteps {
         this.overviewPage = overviewPage;
     }
 
-    /**
-     * Verifies that a product is visible in the checkout overview.
-     */
+    // ============================================================
+    // Verification steps
+    // ============================================================
+
     @Step("Verify product visible in overview: {productName}")
     public CheckoutOverviewSteps verifyProductVisible(String productName) {
         log.info("Verifying product visible in overview: {}", productName);
+
         Assert.assertTrue(
                 overviewPage.isProductVisible(productName),
-                "Product not visible in overview: " + productName
+                "Expected product to be visible in checkout overview: " + productName
         );
+
         return this;
     }
 
-    /**
-     * Completes the checkout process.
-     */
+    // ============================================================
+    // Action steps
+    // ============================================================
+
     @Step("Finish checkout")
     public CheckoutCompletePage finishCheckout() {
         log.info("Finishing checkout");
-        return overviewPage.finishCheckout();
+
+        CheckoutCompletePage completePage = overviewPage.finishCheckout();
+
+        Assert.assertTrue(
+                completePage.isAt(),
+                "Checkout Complete page failed to load after finishing checkout"
+        );
+
+        return completePage;
     }
 }

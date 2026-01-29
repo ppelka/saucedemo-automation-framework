@@ -21,37 +21,49 @@ public class ProductCatalogSteps {
         this.catalog = catalog;
     }
 
-    /**
-     * Adds a product to the cart and verifies that the action was successful.
-     */
+    // ============================================================
+    // Actions
+    // ============================================================
+
     @Step("Add product to cart: {productName}")
     public ProductCatalogSteps addProduct(String productName) {
         log.info("Adding product to cart: {}", productName);
+
         catalog.addProduct(productName);
 
         Assert.assertTrue(
                 catalog.isRemoveButtonVisible(productName),
-                "Remove button is not visible after adding product: " + productName
+                "Product was not added to cart: remove button not visible for " + productName
         );
+
         return this;
     }
 
-    /**
-     * Verifies that the cart badge displays the expected quantity.
-     */
     @Step("Verify cart quantity is: {expected}")
     public ProductCatalogSteps verifyCartQuantity(String expected) {
-        log.info("Verifying cart quantity. Expected: {}", expected);
-        Assert.assertEquals(catalog.getCartQuantity(), expected, "Cart quantity mismatch");
+        String actual = catalog.getCartQuantity();
+
+        log.info("Verifying cart quantity. Expected: {}, Actual: {}", expected, actual);
+
+        Assert.assertEquals(
+                actual,
+                expected,
+                "Cart quantity mismatch. Expected: " + expected + ", Actual: " + actual
+        );
+
         return this;
     }
 
-    /**
-     * Navigates from the product catalog to the cart page.
-     */
     @Step("Navigate to cart page")
     public CartPage goToCart() {
         log.info("Navigating to cart page");
-        return catalog.goToCartPage();
+        CartPage cartPage = catalog.goToCartPage();
+
+        Assert.assertTrue(
+                cartPage.isAt(),
+                "Cart page failed to load after navigation"
+        );
+
+        return cartPage;
     }
 }
