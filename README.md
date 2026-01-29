@@ -1,5 +1,15 @@
 ## 🧪 SauceDemo Automation Framework
 
+## ⚡ TL;DR – Why this project matters
+
+- Clean, layered architecture (Steps → Page Objects → AbstractComponent → Core Utilities)
+- Fluent, scenario‑focused test layer with zero Page Objects in test classes
+- Allure + AspectJ weaving for automatic step logging, screenshots, and retry history
+- CI/CD pipeline on GitHub Actions with Allure results uploaded on every push/PR
+- Configurable, environment‑agnostic WebDriver lifecycle (DriverManager + WebDriverFactory)
+- Fully modular structure: steps, listeners, utils, testbase, tests, pageobjects
+- Retry logic with full diagnostics and attempt history in Allure
+
 UI test automation framework for SauceDemo built with Selenium WebDriver, TestNG, Allure, and the Page Object Model. Designed for clean architecture, rich reporting, and CI/CD integration.
 
 ![Build](https://github.com/ppelka/saucedemo-automation-framework/actions/workflows/maven-tests.yml/badge.svg)
