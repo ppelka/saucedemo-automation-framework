@@ -5,6 +5,7 @@ import com.ppelka.core.DriverManager;
 import com.ppelka.core.WebDriverFactory;
 import com.ppelka.pageobjects.*;
 import com.ppelka.steps.*;
+import com.ppelka.utils.AllureAttachments;
 import org.openqa.selenium.WebDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

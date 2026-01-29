@@ -1,4 +1,4 @@
-package com.ppelka.testbase;
+package com.ppelka.listeners;
 
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;

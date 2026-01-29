@@ -1,4 +1,4 @@
-package com.ppelka.testbase;
+package com.ppelka.utils;
 
 import com.ppelka.core.DriverManager;
 import io.qameta.allure.Attachment;
