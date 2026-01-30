@@ -194,7 +194,6 @@ mvn test -Dgroups="regression"
 ```bash
 mvn test -Dgroups="smoke,regression"
 ```
-
 4. **Generate the Allure report locally**
 ```bash
 allure serve target/allure-results
