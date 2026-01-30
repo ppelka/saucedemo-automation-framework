@@ -15,7 +15,10 @@ import org.testng.annotations.Test;
  */
 public class CheckoutFlowTest extends BaseTest {
 
-    @Test(description = "Full purchase flow with two products")
+    @Test(
+            description = "Full purchase flow with two products",
+            groups = {"smoke", "regression"}
+    )
     public void checkoutFlowTest() {
 
         loginSteps.openLoginPage()

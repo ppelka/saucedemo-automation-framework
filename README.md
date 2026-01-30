@@ -181,7 +181,21 @@ mvn clean install
 ```bash
 mvn test
 ```
-3. **Generate the Allure report locally**
+3. **Run specific TestNG groups**
+- Smoke tests
+```bash
+mvn test -Dgroups="smoke"
+```
+- Regression tests
+```bash
+mvn test -Dgroups="regression"
+```
+- Multiple groups
+```bash
+mvn test -Dgroups="smoke,regression"
+```
+
+4. **Generate the Allure report locally**
 ```bash
 allure serve target/allure-results
 ```

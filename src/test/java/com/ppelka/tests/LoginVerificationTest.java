@@ -24,7 +24,8 @@ public class LoginVerificationTest extends BaseTest {
 
     @Test(
             dataProvider = "loginUsers",
-            description = "Parameterized login test for multiple user types"
+            description = "Parameterized login test for multiple user types",
+            groups = {"regression"}
     )
     public void loginTest(String username, String password, boolean shouldSucceed, String description) {
 
