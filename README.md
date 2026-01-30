@@ -309,6 +309,16 @@ The workflow runs automatically on every push and pull request to the `main` bra
     - integrating with Selenium Grid or Docker
     - triggering nightly regression runs
 
+### Matrix build
+
+The CI pipeline runs the full test suite on multiple Java versions (17 and 21) using a GitHub Actions matrix strategy.  
+This ensures forward compatibility and validates the framework across different JDK releases.
+
+Each matrix job uploads its own Allure results as a separate artifact:
+
+- `allure-results-java-17`
+- `allure-results-java-21`
+
 The workflow file is located at:
 `.github/workflows/maven-tests.yml`
 
