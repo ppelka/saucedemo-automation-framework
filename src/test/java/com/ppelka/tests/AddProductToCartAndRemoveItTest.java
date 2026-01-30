@@ -9,7 +9,10 @@ import org.testng.annotations.Test;
  */
 public class AddProductToCartAndRemoveItTest extends BaseTest {
 
-    @Test(description = "Add product to cart and remove it")
+    @Test(
+            description = "Add product to cart and remove it",
+            groups = {"smoke", "regression"}
+    )
     public void addAndRemoveProductTest() {
 
         loginSteps.openLoginPage()
