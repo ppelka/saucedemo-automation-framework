@@ -1,6 +1,7 @@
 package com.ppelka.tests;
 
 import com.ppelka.testbase.BaseTest;
+import io.qameta.allure.*;
 import org.testng.annotations.Test;
 
 /**
@@ -13,12 +14,16 @@ import org.testng.annotations.Test;
  *  6. Verify overview
  *  7. Complete purchase
  */
+@Epic("Checkout")
+@Feature("Purchase Flow")
 public class CheckoutFlowTest extends BaseTest {
 
     @Test(
             description = "Full purchase flow with two products",
             groups = {"smoke", "regression"}
     )
+    @Story("User completes a full purchase with multiple products")
+    @Severity(SeverityLevel.CRITICAL)
     public void checkoutFlowTest() {
 
         loginSteps.openLoginPage()

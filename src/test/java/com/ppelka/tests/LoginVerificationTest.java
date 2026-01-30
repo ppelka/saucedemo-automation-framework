@@ -1,6 +1,7 @@
 package com.ppelka.tests;
 
 import com.ppelka.testbase.BaseTest;
+import io.qameta.allure.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -10,6 +11,8 @@ import org.testng.annotations.Test;
  *  - Error handling for invalid or restricted users
  *  - Allure reporting for each data-driven iteration
  */
+@Epic("Authentication")
+@Feature("Login")
 public class LoginVerificationTest extends BaseTest {
 
     @DataProvider(name = "loginUsers")
@@ -27,6 +30,8 @@ public class LoginVerificationTest extends BaseTest {
             description = "Parameterized login test for multiple user types",
             groups = {"regression"}
     )
+    @Story("User attempts to log in with various credential types")
+    @Severity(SeverityLevel.BLOCKER)
     public void loginTest(String username, String password, boolean shouldSucceed, String description) {
 
         loginSteps.openLoginPage();
