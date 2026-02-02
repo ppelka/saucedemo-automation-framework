@@ -49,4 +49,19 @@ public class CheckoutInformationSteps {
 
         return overviewPage;
     }
+
+    @Step("Click Continue without entering customer info")
+    public CheckoutInformationSteps clickContinueWithoutInfo() {
+        infoPage.clickContinue();
+        return this;
+    }
+
+    @Step("Verify checkout error message: {expectedMessage}")
+    public CheckoutInformationSteps verifyErrorMessage(String expectedMessage) {
+        String actual = infoPage.getErrorMessage();
+        Assert.assertEquals(actual, expectedMessage, "Error message mismatch");
+        return this;
+    }
+
+
 }

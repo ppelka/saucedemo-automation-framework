@@ -286,6 +286,10 @@ Covers the full cart interaction flow: adding an item, verifying cart contents, 
 💳 **Complete checkout flow (end‑to‑end)**  
 Simulates a full purchase journey: login → add product → cart review → checkout information → order overview → order completion.
 
+🚫 **Checkout validation (edge‑case)**  
+Ensures the user cannot proceed to the checkout overview without providing required customer information.  
+Validates error handling and form validation logic using a negative scenario.
+
 ## 📦 CI/CD Integration (GitHub Actions)
 
 This project includes a fully configured CI pipeline using GitHub Actions.  
