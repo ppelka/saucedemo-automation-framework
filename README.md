@@ -69,6 +69,8 @@ flowchart TB
   G --> H["Allure Reports: steps, screenshots, retry history"]
   H --> I["CI/CD Pipeline: GitHub Actions"]
 ```
+📘 **Detailed architecture documentation** is available in:  
+[docs/architecture.md](docs/architecture.md)
 
 ## 🔑 Key Features
 
