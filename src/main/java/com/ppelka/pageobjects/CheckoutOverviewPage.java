@@ -13,9 +13,9 @@ public class CheckoutOverviewPage extends AbstractComponent {
     // ============================================================
     // Locators
     // ============================================================
-    private final By overviewItem   = By.cssSelector(".cart_item");
-    private final By itemName       = By.cssSelector(".inventory_item_name");
-    private final By finishButton   = By.id("finish");
+    private final By overviewItem = By.cssSelector(".cart_item");
+    private final By itemName = By.cssSelector(".inventory_item_name");
+    private final By finishButton = By.id("finish");
 
     // ============================================================
     // Constructor

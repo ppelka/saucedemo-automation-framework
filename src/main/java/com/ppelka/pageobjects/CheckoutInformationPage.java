@@ -17,6 +17,8 @@ public class CheckoutInformationPage extends AbstractComponent {
     private final By lastNameField    = By.id("last-name");
     private final By postalCodeField  = By.id("postal-code");
     private final By continueButton   = By.id("continue");
+    private final By errorMessage     = By.cssSelector("h3[data-test='error']");
+
 
     // ============================================================
     // Constructor
@@ -63,5 +65,14 @@ public class CheckoutInformationPage extends AbstractComponent {
         CheckoutOverviewPage overviewPage = new CheckoutOverviewPage(driver);
         overviewPage.waitForPageToLoad();
         return overviewPage;
+    }
+
+    public String getErrorMessage() {
+        return getText(errorMessage);
+    }
+
+    public CheckoutInformationPage clickContinue() {
+        click(continueButton);
+        return this;
     }
 }
